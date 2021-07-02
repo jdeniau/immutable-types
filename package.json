@@ -4,6 +4,9 @@
   "description": "Typescript latest types of immutable. This repository allows to download latest types before PR are merged in the main repository",
   "main": "index.js",
   "typings": "dist/immutable-nonambient.d.ts",
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "build": "npm run clean:dist && npm run copy:dist",
     "clean:dist": "rm -rf dist; mkdir dist",
