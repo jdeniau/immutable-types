@@ -4,14 +4,11 @@
   "description": "Typescript latest types of immutable. This repository allows to download latest types before PR are merged in the main repository",
   "main": "index.js",
   "typings": "dist/immutable-nonambient.d.ts",
-  "typescript": {
-    "definition": "dist/immutable.d.ts"
-  },
   "scripts": {
     "build": "npm run clean:dist && npm run copy:dist",
     "clean:dist": "rm -rf dist; mkdir dist",
     "copy:dist": "node ./resources/copy-dist-typedefs.js",
-    "test": "tsc --project type-definitions/tsconfig.json && dtslint type-definitions/ts-tests"
+    "test": "npm run build && tsc --project type-definitions/tsconfig.json && dtslint type-definitions/ts-tests"
   },
   "repository": {
     "type": "git",
