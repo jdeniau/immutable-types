@@ -18,8 +18,22 @@ import { Map, List } from '../../';
   // $ExpectType Map<number, string>
   Map(List<[number, string]>([[1, 'a']]));
 
+  // start https://github.com/immutable-js-oss/immutable-js/pull/223/files
   // $ExpectType Map<string, number>
+  Map<number>({ a: 1 });
+
+  // $ExpectType ObjectLikeMap<{ a: number; }>
   Map({ a: 1 });
+
+  // $ExpectType ObjectLikeMap<{ a: number; b: string; }>
+  Map({ a: 1, b: 'b' });
+
+  // $ExpectError
+  Map<{ a: string }>({ a: 1 });
+
+  // $ExpectError
+  Map<{ a: string }>({ a: 'a', b: 'b' });
+  // end https://github.com/immutable-js-oss/immutable-js/pull/223/files
 
   // No longer works in typescript@>=3.9
   // // $ExpectError - TypeScript does not support Lists as tuples
@@ -47,6 +61,22 @@ import { Map, List } from '../../';
 
   // $ExpectError
   Map<number, number>().get<number>(4, 'a');
+
+  // start https://github.com/immutable-js-oss/immutable-js/pull/223/files
+  // $ExpectType number
+  Map({ a: 4, b: true }).get('a');
+
+  // $ExpectType boolean
+  Map({ a: 4, b: true }).get('b');
+
+  // $ExpectType boolean
+  Map({ a: Map({ b: true }) })
+    .get('a')
+    .get('b');
+
+  // $ExpectError
+  Map({ a: 4 }).get('b');
+  // end https://github.com/immutable-js-oss/immutable-js/pull/223/files
 }
 
 {
@@ -266,14 +296,20 @@ import { Map, List } from '../../';
   // #flatMap
 
   // $ExpectType Map<number, number>
-  Map<number, number>().flatMap(
-    (value: number, key: number, iter: Map<number, number>) => [[0, 1]]
-  );
+  Map<
+    number,
+    number
+  >().flatMap((value: number, key: number, iter: Map<number, number>) => [
+    [0, 1],
+  ]);
 
   // $ExpectType Map<string, string>
-  Map<number, number>().flatMap(
-    (value: number, key: number, iter: Map<number, number>) => [['a', 'b']]
-  );
+  Map<
+    number,
+    number
+  >().flatMap((value: number, key: number, iter: Map<number, number>) => [
+    ['a', 'b'],
+  ]);
 
   // $ExpectType Map<number, number>
   Map<number, number>().flatMap<number, number>(
@@ -387,10 +423,7 @@ import { Map, List } from '../../';
   );
 
   // $ExpectType Map<number, string | number>
-  Map<number, number | string>().mergeWith(
-    (prev: number | string, next: number | string, key: number) => 1,
-    Map<number, string>()
-  );
+  Map<number, number | string>().mergeWith((prev: number | string, next: number | string, key: number) => 1, Map<number, string>());
 }
 
 {
@@ -426,34 +459,19 @@ import { Map, List } from '../../';
   // #mergeDeepWith
 
   // $ExpectType Map<number, number>
-  Map<number, number>().mergeDeepWith(
-    (prev: unknown, next: unknown, key: unknown) => 1,
-    Map<number, number>()
-  );
+  Map<number, number>().mergeDeepWith((prev: unknown, next: unknown, key: unknown) => 1, Map<number, number>());
 
   // $ExpectError
-  Map<number, number>().mergeDeepWith(
-    (prev: unknown, next: unknown, key: unknown) => 1,
-    Map<number, string>()
-  );
+  Map<number, number>().mergeDeepWith((prev: unknown, next: unknown, key: unknown) => 1, Map<number, string>());
 
   // $ExpectType Map<string, number>
-  Map<string, number>().mergeDeepWith(
-    (prev: unknown, next: unknown, key: unknown) => 1,
-    { a: 1 }
-  );
+  Map<string, number>().mergeDeepWith((prev: unknown, next: unknown, key: unknown) => 1, { a: 1 });
 
   // $ExpectError
-  Map<string, number>().mergeDeepWith(
-    (prev: unknown, next: unknown, key: unknown) => 1,
-    { a: 'a' }
-  );
+  Map<string, number>().mergeDeepWith((prev: unknown, next: unknown, key: unknown) => 1, { a: 'a' });
 
   // $ExpectType Map<number, string | number>
-  Map<number, number | string>().mergeDeepWith(
-    (prev: unknown, next: unknown, key: unknown) => 1,
-    Map<number, string>()
-  );
+  Map<number, number | string>().mergeDeepWith((prev: unknown, next: unknown, key: unknown) => 1, Map<number, string>());
 }
 
 {

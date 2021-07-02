@@ -764,7 +764,28 @@ declare module Immutable {
   export function Map(): Map<unknown, unknown>;
   export function Map<K, V>(): Map<K, V>;
   export function Map<K, V>(collection: Iterable<[K, V]>): Map<K, V>;
+  // start https://github.com/immutable-js-oss/immutable-js/pull/223/files
+  // - export function Map<V>(obj: { [key: string]: V }): Map<string, V>;
+  export function Map<R extends { [key in string | number]: unknown }>(
+    obj: R
+  ): ObjectLikeMap<R>;
   export function Map<V>(obj: { [key: string]: V }): Map<string, V>;
+
+  export interface ObjectLikeMap<
+    R extends { [key in string | number]: unknown }
+  > extends Map<keyof R, R[keyof R]> {
+    /**
+     * Returns the value associated with the provided key, or notSetValue if
+     * the Collection does not contain this key.
+     *
+     * Note: it is possible a key may be associated with an `undefined` value,
+     * so if `notSetValue` is not provided and this method returns `undefined`,
+     * that does not guarantee the key was not found.
+     */
+    get<K extends keyof R>(key: K, notSetValue?: unknown): R[K];
+    get<NSV>(key: string, notSetValue: NSV): NSV;
+  }
+  // end https://github.com/immutable-js-oss/immutable-js/pull/223/files
 
   export interface Map<K, V> extends Collection.Keyed<K, V> {
     /**
