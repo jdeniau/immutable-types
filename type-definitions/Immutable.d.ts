@@ -764,11 +764,15 @@ declare module Immutable {
   export function Map(): Map<unknown, unknown>;
   export function Map<K, V>(): Map<K, V>;
   export function Map<K, V>(collection: Iterable<[K, V]>): Map<K, V>;
+
   // start https://github.com/immutable-js-oss/immutable-js/pull/223/files
   // - export function Map<V>(obj: { [key: string]: V }): Map<string, V>;
   export function Map<R extends { [key in string | number]: unknown }>(
     obj: R
   ): ObjectLikeMap<R>;
+  // start https://github.com/immutable-js-oss/immutable-js/pull/209/files
+  export function Map<K extends string, V>(obj: { [P in K]?: V }): Map<K, V>;
+  // end https://github.com/immutable-js-oss/immutable-js/pull/209/files
   export function Map<V>(obj: { [key: string]: V }): Map<string, V>;
 
   export interface ObjectLikeMap<

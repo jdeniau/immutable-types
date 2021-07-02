@@ -35,6 +35,17 @@ import { Map, List } from '../../';
   Map<{ a: string }>({ a: 'a', b: 'b' });
   // end https://github.com/immutable-js-oss/immutable-js/pull/223/files
 
+  // start https://github.com/immutable-js-oss/immutable-js/pull/209/files
+  // $ExpectType Map<"status", string>
+  Map<'status', string>({ status: 'paid' });
+
+  // $ExpectType Map<"status" | "amount", string>
+  Map<'status' | 'amount', string>({ status: 'paid' });
+
+  // $ExpectError
+  Map<'status', string>({ status: 'paid', amount: 10 });
+  // end https://github.com/immutable-js-oss/immutable-js/pull/209/files
+
   // No longer works in typescript@>=3.9
   // // $ExpectError - TypeScript does not support Lists as tuples
   // Map(List([List(['a', 'b'])]));
