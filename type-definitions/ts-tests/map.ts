@@ -1,10 +1,3 @@
-/**
- * Copyright (c) 2014-present, Facebook, Inc.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- */
-
 import { Map, List } from '../../';
 
 {
@@ -13,23 +6,20 @@ import { Map, List } from '../../';
   // $ExpectType Map<unknown, unknown>
   Map();
 
+  // $ExpectType Map<number, number>
+  Map<number, number>();
+
   // $ExpectType Map<number, string>
   Map([[1, 'a']]);
+
+  // $ExpectType Map<string, string>
+  Map([['a', 'a']]);
 
   // $ExpectType Map<number, string>
   Map(List<[number, string]>([[1, 'a']]));
 
-  // $ExpectType ObjectLikeMap<{ a: number; }>
+  // $ExpectType Map<string, number>
   Map({ a: 1 });
-
-  // $ExpectType ObjectLikeMap<{ a: number; b: string; }>
-  Map({ a: 1, b: 'b' });
-
-  // $ExpectError
-  Map<{ a: string }>({ a: 1 });
-
-  // $ExpectError
-  Map<{ a: string }>({ a: 'a', b: 'b' });
 
   // No longer works in typescript@>=3.9
   // // $ExpectError - TypeScript does not support Lists as tuples
@@ -57,20 +47,6 @@ import { Map, List } from '../../';
 
   // $ExpectError
   Map<number, number>().get<number>(4, 'a');
-
-  // $ExpectType number
-  Map({ a: 4, b: true }).get('a');
-
-  // $ExpectType boolean
-  Map({ a: 4, b: true }).get('b');
-
-  // $ExpectType boolean
-  Map({ a: Map({ b: true }) })
-    .get('a')
-    .get('b');
-
-  // $ExpectError
-  Map({ a: 4 }).get('b');
 }
 
 {
@@ -455,9 +431,9 @@ import { Map, List } from '../../';
     Map<number, number>()
   );
 
+  // $ExpectError
   Map<number, number>().mergeDeepWith(
-    // $ExpectError
-    (prev: number, next: number, key: number) => 1,
+    (prev: unknown, next: unknown, key: unknown) => 1,
     Map<number, string>()
   );
 
@@ -467,9 +443,9 @@ import { Map, List } from '../../';
     { a: 1 }
   );
 
+  // $ExpectError
   Map<string, number>().mergeDeepWith(
-    // $ExpectError
-    (prev: number, next: number, key: string) => 1,
+    (prev: unknown, next: unknown, key: unknown) => 1,
     { a: 'a' }
   );
 
