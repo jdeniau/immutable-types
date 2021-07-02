@@ -1,0 +1,30 @@
+{
+  "name": "immutable",
+  "version": "0.0.1",
+  "description": "Typescript latest types of immutable. This repository allows to download latest types before PR are merged in the main repository",
+  "main": "index.js",
+  "typings": "dist/immutable-nonambient.d.ts",
+  "typescript": {
+    "definition": "dist/immutable.d.ts"
+  },
+  "scripts": {
+    "build": "npm run clean:dist && npm run copy:dist",
+    "clean:dist": "rm -rf dist; mkdir dist",
+    "copy:dist": "node ./resources/copy-dist-typedefs.js",
+    "test": "tsc --project type-definitions/tsconfig.json && dtslint type-definitions/ts-tests"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jdeniau/immutable-types.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jdeniau/immutable-types/issues"
+  },
+  "homepage": "https://github.com/jdeniau/immutable-types#readme",
+  "devDependencies": {
+    "dtslint": "^4.1.1",
+    "typescript": "^4.3.5"
+  }
+}
