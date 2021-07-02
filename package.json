@@ -1,6 +1,6 @@
 {
   "name": "@jdeniau/immutable-types",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Typescript latest types of immutable. This repository allows to download latest types before PR are merged in the main repository",
   "main": "index.js",
   "typings": "dist/immutable-nonambient.d.ts",
