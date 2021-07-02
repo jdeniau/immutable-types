@@ -8,7 +8,8 @@
     "build": "npm run clean:dist && npm run copy:dist",
     "clean:dist": "rm -rf dist; mkdir dist",
     "copy:dist": "node ./resources/copy-dist-typedefs.js",
-    "test": "npm run build && tsc --project type-definitions/tsconfig.json && dtslint type-definitions/ts-tests"
+    "test": "npm run build && tsc --project type-definitions/tsconfig.json && dtslint type-definitions/ts-tests",
+    "prepublishOnly": "npm run build"
   },
   "repository": {
     "type": "git",
@@ -23,5 +24,6 @@
   "devDependencies": {
     "dtslint": "^4.1.1",
     "typescript": "^4.3.5"
-  }
+  },
+  "dependencies": {}
 }
